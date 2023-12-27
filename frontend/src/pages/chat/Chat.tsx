@@ -71,6 +71,12 @@ const Chat = () => {
 
     const [ASSISTANT, TOOL, ERROR] = ["assistant", "tool", "error"]
 
+    const [selectedOption, setSelectedOption] = useState<string>("Feedback");
+
+    const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedOption(event.target.value);
+    };
+
     useEffect(() => {
         if(appStateContext?.state.isCosmosDBAvailable?.status === CosmosDBStatus.NotWorking && appStateContext.state.chatHistoryLoadingState === ChatHistoryLoadingState.Fail && hideErrorDialog){
             let subtitle = `${appStateContext.state.isCosmosDBAvailable.status}. Please contact the site administrator.`
@@ -582,6 +588,22 @@ const Chat = () => {
                 </Stack>
             ) : (
                 <Stack horizontal className={styles.chatRoot}>
+                    <div className={styles.chatSettings}>
+                        {/* <h2 className={styles.chatSettingsTitle}>Scenario</h2>
+                        <Stack>
+                            <Stack horizontal verticalAlign="start">
+                                <input type="radio" value="Feedback" checked={selectedOption === "Feedback"} onChange={handleOptionChange} /> Feedback
+                            </Stack>
+                            <Stack horizontal verticalAlign="start">
+                                <input type="radio" value="Role Play" checked={selectedOption === "Role Play"} onChange={handleOptionChange} /> Role Play
+                            </Stack>
+                        </Stack> */}
+                        <h2 className={styles.chatSettingsTitle}>Instructions</h2>
+                        <p className={styles.chatSettingsItem}>Say 'review feedback' and then follow the instructions to get your feedback reviewed.</p>
+                        <p className={styles.chatSettingsItem}>Say 'role play' and then follow the instructions to role play a difficult conversation.</p>
+                        <p className={styles.chatSettingsItem}>Say 'stop role play' to end the simulation.</p>
+                        <p className={styles.chatSettingsFooter}>Manager Copilot does not save any conversations or use your data for training purposes. Even so, please do not provide confidential or personally identifiable information. This is for demo purposes only.</p>
+                    </div>
                     <div className={styles.chatContainer}>
                         {!messages || messages.length < 1 ? (
                             <Stack className={styles.chatEmptyState}>
